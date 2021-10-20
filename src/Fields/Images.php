@@ -10,7 +10,15 @@ class Images extends Media
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
-        $this->croppable();
+        $this
+            ->conversionOnIndexView('nova-thumb')
+            ->conversionOnDetailView('nova-thumb')
+            ->conversionOnForm('nova-thumb')
+            ->conversionOnPreview('nova-thumb')
+            ->withMeta(['croppingConfigs' => [
+                'cross-origin' => 'anonymous',
+            ]])
+            ->croppable();
     }
 
     /**

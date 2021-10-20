@@ -49375,11 +49375,11 @@ var render = function() {
           staticStyle: { "padding-top": "100%" }
         },
         [
-          "__media_urls__" in _vm.item && "indexView" in _vm.item.__media_urls__
+          "__media_urls__" in _vm.item && "preview" in _vm.item.__media_urls__
             ? _c("img", {
                 staticClass: "absolute block h-full pin-t pin-l w-full",
                 staticStyle: { "object-fit": "cover" },
-                attrs: { src: _vm.item.__media_urls__.indexView }
+                attrs: { src: _vm.item.__media_urls__.preview }
               })
             : _vm._e(),
           _vm._v(" "),

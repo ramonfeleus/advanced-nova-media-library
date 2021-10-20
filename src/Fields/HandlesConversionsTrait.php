@@ -32,10 +32,10 @@ trait HandlesConversionsTrait
         return [
             // original needed several purposes like cropping
             '__original__' => $media->getFullUrl(),
-            'indexView' => $media->getFullUrl($this->meta['conversionOnIndexView'] ?? ''),
-            'detailView' => $media->getFullUrl($this->meta['conversionOnDetailView'] ?? ''),
-            'form' => $media->getFullUrl($this->meta['conversionOnForm'] ?? ''),
-            'preview' => $media->getFullUrl($this->meta['conversionOnPreview'] ?? ''),
+            'indexView' => $media->getFullUrl($this->meta['conversionOnIndexView'] ?? 'nova-thumb'),
+            'detailView' => $media->getFullUrl($this->meta['conversionOnDetailView'] ?? 'nova-thumb'),
+            'form' => $media->getFullUrl($this->meta['conversionOnForm'] ?? 'nova-thumb'),
+            'preview' => $media->getFullUrl($this->meta['conversionOnPreview'] ?? 'nova-thumb'),
         ];
     }
 
@@ -44,10 +44,10 @@ trait HandlesConversionsTrait
         return [
             // original needed several purposes like cropping
             '__original__' => $media->getTemporaryUrl($this->secureUntil),
-            'indexView' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnIndexView'] ?? ''),
-            'detailView' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnDetailView'] ?? ''),
-            'form' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnForm'] ?? ''),
-            'preview' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnPreview'] ?? ''),
+            'indexView' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnIndexView'] ?? 'nova-thumb'),
+            'detailView' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnDetailView'] ?? 'nova-thumb'),
+            'form' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnForm'] ?? 'nova-thumb'),
+            'preview' => $media->getTemporaryUrl($this->secureUntil, $this->meta['conversionOnPreview'] ?? 'nova-thumb'),
         ];
     }
 }
