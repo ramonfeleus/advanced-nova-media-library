@@ -11,8 +11,8 @@
 </script>
 
 <style lang="scss">
-  $bg-color: #e8f5fb;
-  $border-radius: 10px;
+  $bg-color: rgb(230,230,230);
+  $border-radius: 0;
 
   .gallery {
     &.editable {
@@ -35,6 +35,9 @@
         background-color: transparentize($bg-color, .2);
         border-radius: $border-radius;
         z-index: 10;
+      }
+      &-image.gallery-item img.gallery-image {
+          border-radius: 0;
       }
     }
   }

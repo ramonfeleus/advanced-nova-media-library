@@ -653,6 +653,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomProperties__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CustomProperties */ "./resources/js/components/CustomProperties.vue");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
 /* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _ExistingMedia__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ExistingMedia */ "./resources/js/components/ExistingMedia.vue");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -705,6 +706,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -716,7 +726,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     SingleMedia: _SingleMedia__WEBPACK_IMPORTED_MODULE_0__["default"],
     SingleFile: _SingleFile__WEBPACK_IMPORTED_MODULE_1__["default"],
     CustomProperties: _CustomProperties__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Cropper: _Cropper__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Cropper: _Cropper__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ExistingMedia: _ExistingMedia__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   props: {
     hasError: Boolean,
@@ -737,7 +748,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       cropImageQueue: [],
       images: this.value,
       customPropertiesImageIndex: null,
-      singleComponent: this.field.type === 'media' ? _SingleMedia__WEBPACK_IMPORTED_MODULE_0__["default"] : _SingleFile__WEBPACK_IMPORTED_MODULE_1__["default"]
+      singleComponent: this.field.type === 'media' ? _SingleMedia__WEBPACK_IMPORTED_MODULE_0__["default"] : _SingleFile__WEBPACK_IMPORTED_MODULE_1__["default"],
+      existingMediaOpen: false
     };
   },
   computed: {
@@ -749,6 +761,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     customPropertiesFields: function customPropertiesFields() {
       return this.field.customPropertiesFields || [];
+    },
+    openExistingMediaLabel: function openExistingMediaLabel() {
+      var type = this.field.type === 'media' ? 'Media' : 'File';
+
+      if (this.field.multiple || this.value.length === 0) {
+        return this.__("Add Existing ".concat(type));
+      }
+
+      return this.__("Use Existing ".concat(type));
     },
     label: function label() {
       var type = this.field.type === 'media' ? 'Media' : 'File';
@@ -1245,9 +1266,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_nova__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(laravel_nova__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Gallery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Gallery */ "./resources/js/components/Gallery.vue");
 /* harmony import */ var _FullWidthField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FullWidthField */ "./resources/js/components/FullWidthField.vue");
-/* harmony import */ var _ExistingMedia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../ExistingMedia */ "./resources/js/components/ExistingMedia.vue");
-/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! object-to-formdata */ "./node_modules/object-to-formdata/index.js");
-/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(object_to_formdata__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! object-to-formdata */ "./node_modules/object-to-formdata/index.js");
+/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(object_to_formdata__WEBPACK_IMPORTED_MODULE_3__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -1272,14 +1292,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-
 
 
 
@@ -1288,27 +1300,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mixins: [laravel_nova__WEBPACK_IMPORTED_MODULE_0__["FormField"], laravel_nova__WEBPACK_IMPORTED_MODULE_0__["HandlesValidationErrors"]],
   components: {
     Gallery: _Gallery__WEBPACK_IMPORTED_MODULE_1__["default"],
-    FullWidthField: _FullWidthField__WEBPACK_IMPORTED_MODULE_2__["default"],
-    ExistingMedia: _ExistingMedia__WEBPACK_IMPORTED_MODULE_3__["default"]
+    FullWidthField: _FullWidthField__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: ['resourceName', 'resourceId', 'field'],
   data: function data() {
     return {
-      hasSetInitialValue: false,
-      existingMediaOpen: false
+      hasSetInitialValue: false
     };
   },
-  computed: {
-    openExistingMediaLabel: function openExistingMediaLabel() {
-      var type = this.field.type === 'media' ? 'Media' : 'File';
-
-      if (this.field.multiple || this.value.length === 0) {
-        return this.__("Add Existing ".concat(type));
-      }
-
-      return this.__("Use Existing ".concat(type));
-    }
-  },
+  computed: {},
   methods: {
     /*
      * Set the initial, internal value for the field.
@@ -1340,7 +1340,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           formData.append("__media__[".concat(field, "][").concat(index, "]"), file.id);
         }
 
-        object_to_formdata__WEBPACK_IMPORTED_MODULE_4___default()(_defineProperty({}, "__media-custom-properties__[".concat(field, "][").concat(index, "]"), _this.getImageCustomProperties(file)), {}, formData);
+        object_to_formdata__WEBPACK_IMPORTED_MODULE_3___default()(_defineProperty({}, "__media-custom-properties__[".concat(field, "][").concat(index, "]"), _this.getImageCustomProperties(file)), {}, formData);
       });
     },
     getImageCustomProperties: function getImageCustomProperties(image) {
@@ -1565,7 +1565,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".gallery.editable .gallery-item {\n  cursor: -webkit-grab;\n  cursor: grab;\n}", ""]);
+exports.push([module.i, ".gallery.editable .gallery-item {\n  cursor: -webkit-grab;\n  cursor: grab;\n}\n.gallery-buttons {\n  display: flex;\n}", ""]);
 
 // exports
 
@@ -1584,7 +1584,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".gallery.editable .gallery-item {\n  cursor: -webkit-grab;\n  cursor: grab;\n}\n.gallery .gallery-item {\n  float: left;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  position: relative;\n  border-radius: 10px;\n  background-color: #e8f5fb;\n}\n.gallery .gallery-item .gallery-item-info {\n  display: flex;\n  background-color: rgba(232, 245, 251, 0.8);\n  border-radius: 10px;\n  z-index: 10;\n}", ""]);
+exports.push([module.i, ".gallery.editable .gallery-item {\n  cursor: -webkit-grab;\n  cursor: grab;\n}\n.gallery .gallery-item {\n  float: left;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  position: relative;\n  border-radius: 0;\n  background-color: #e6e6e6;\n}\n.gallery .gallery-item .gallery-item-info {\n  display: flex;\n  background-color: rgba(230, 230, 230, 0.8);\n  border-radius: 0;\n  z-index: 10;\n}\n.gallery .gallery-item-image.gallery-item img.gallery-image {\n  border-radius: 0;\n}", ""]);
 
 // exports
 
@@ -49548,7 +49548,7 @@ var render = function() {
                 return _c(_vm.singleComponent, {
                   key: index,
                   tag: "component",
-                  staticClass: "mb-3 p-3 mr-3",
+                  staticClass: "mb-3 mr-3",
                   attrs: {
                     image: image,
                     field: _vm.field,
@@ -49600,24 +49600,67 @@ var render = function() {
         ? _c("span", { staticClass: "mr-3" }, [_vm._v("—")])
         : _vm._e(),
       _vm._v(" "),
-      _vm.editable
-        ? _c("span", { staticClass: "form-file" }, [
-            _c("input", {
-              ref: "file",
-              staticClass: "form-file-input",
-              attrs: {
-                id: "__media__" + _vm.field.attribute,
-                multiple: _vm.multiple,
-                type: "file"
-              },
-              on: { change: _vm.add }
-            }),
+      _vm.editable || _vm.field.existingMedia
+        ? _c("div", { staticClass: "gallery-buttons" }, [
+            _vm.editable
+              ? _c("div", { staticClass: "form-file" }, [
+                  _c("input", {
+                    ref: "file",
+                    staticClass: "form-file-input",
+                    attrs: {
+                      id: "__media__" + _vm.field.attribute,
+                      multiple: _vm.multiple,
+                      type: "file"
+                    },
+                    on: { change: _vm.add }
+                  }),
+                  _vm._v(" "),
+                  _c("label", {
+                    staticClass: "form-file-btn btn btn-default btn-primary",
+                    attrs: { for: "__media__" + _vm.field.attribute },
+                    domProps: { textContent: _vm._s(_vm.label) }
+                  })
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("label", {
-              staticClass: "form-file-btn btn btn-default btn-primary",
-              attrs: { for: "__media__" + _vm.field.attribute },
-              domProps: { textContent: _vm._s(_vm.label) }
-            })
+            _vm.field.existingMedia
+              ? _c(
+                  "div",
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "form-file-btn btn btn-default btn-primary ml-3",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.existingMediaOpen = true
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n        " +
+                            _vm._s(_vm.openExistingMediaLabel) +
+                            "\n      "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("existing-media", {
+                      attrs: { open: _vm.existingMediaOpen },
+                      on: {
+                        close: function($event) {
+                          _vm.existingMediaOpen = false
+                        },
+                        select: _vm.addExistingItem
+                      }
+                    })
+                  ],
+                  1
+                )
+              : _vm._e()
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -50074,45 +50117,6 @@ var render = function() {
                     expression: "value"
                   }
                 })
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.field.existingMedia
-              ? _c(
-                  "div",
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "form-file-btn btn btn-default btn-primary mt-2",
-                        attrs: { type: "button" },
-                        on: {
-                          click: function($event) {
-                            _vm.existingMediaOpen = true
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n          " +
-                            _vm._s(_vm.openExistingMediaLabel) +
-                            "\n        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("existing-media", {
-                      attrs: { open: _vm.existingMediaOpen },
-                      on: {
-                        close: function($event) {
-                          _vm.existingMediaOpen = false
-                        },
-                        select: _vm.addExistingItem
-                      }
-                    })
-                  ],
-                  1
-                )
               : _vm._e(),
             _vm._v(" "),
             _vm.showErrors && _vm.hasError

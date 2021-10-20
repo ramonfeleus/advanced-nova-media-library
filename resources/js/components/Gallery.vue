@@ -5,7 +5,7 @@
     <component :is="draggable ? 'draggable' : 'div'" v-if="images.length > 0" v-model="images"
                class="gallery-list clearfix">
 
-      <component :is="singleComponent" v-for="(image, index) in images" class="mb-3 p-3 mr-3"
+      <component :is="singleComponent" v-for="(image, index) in images" class="mb-3 mr-3"
                     :key="index" :image="image" :field="field" :editable="editable" :removable="removable || editable" @remove="remove(index)"
                     :is-custom-properties-editable="customProperties && customPropertiesFields.length > 0"
                     @edit-custom-properties="customPropertiesImageIndex = index"
@@ -23,10 +23,18 @@
 
     <span v-else-if="!editable" class="mr-3">&mdash;</span>
 
-    <span v-if="editable" class="form-file">
-      <input :id="`__media__${field.attribute}`" :multiple="multiple" ref="file" class="form-file-input" type="file" @change="add"/>
-      <label :for="`__media__${field.attribute}`" class="form-file-btn btn btn-default btn-primary" v-text="label"/>
-    </span>
+    <div class="gallery-buttons" v-if="editable || field.existingMedia">
+      <div v-if="editable" class="form-file">
+        <input :id="`__media__${field.attribute}`" :multiple="multiple" ref="file" class="form-file-input" type="file" @change="add"/>
+        <label :for="`__media__${field.attribute}`" class="form-file-btn btn btn-default btn-primary" v-text="label"/>
+      </div>
+      <div v-if="field.existingMedia">
+        <button type="button" class="form-file-btn btn btn-default btn-primary ml-3" @click="existingMediaOpen = true">
+          {{  openExistingMediaLabel }}
+        </button>
+        <existing-media :open="existingMediaOpen" @close="existingMediaOpen = false" @select="addExistingItem"/>
+      </div>
+    </div>
 
     <help-text v-if="field.type !== 'media'" :show-span="showHelpText" class="mt-2">
       {{ field.helpText }}
@@ -44,6 +52,7 @@
   import Cropper from './Cropper';
   import CustomProperties from './CustomProperties';
   import Draggable from 'vuedraggable';
+  import ExistingMedia from "./ExistingMedia";
 
   export default {
     components: {
@@ -52,6 +61,7 @@
       SingleFile,
       CustomProperties,
       Cropper,
+      ExistingMedia
     },
     props: {
       hasError: Boolean,
@@ -73,6 +83,7 @@
         images: this.value,
         customPropertiesImageIndex: null,
         singleComponent: this.field.type === 'media' ? SingleMedia : SingleFile,
+        existingMediaOpen: false
       };
     },
     computed: {
@@ -84,6 +95,15 @@
       },
       customPropertiesFields() {
         return this.field.customPropertiesFields || [];
+      },
+      openExistingMediaLabel () {
+        const type = this.field.type === 'media' ? 'Media' : 'File';
+
+        if (this.field.multiple || this.value.length === 0) {
+          return this.__(`Add Existing ${type}`);
+        }
+
+        return this.__(`Use Existing ${type}`);
       },
       label() {
         const type = this.field.type === 'media' ? 'Media' : 'File';
@@ -265,6 +285,9 @@
       .gallery-item {
         cursor: grab;
       }
+    }
+    &-buttons {
+      display: flex;
     }
   }
 </style>

@@ -5,13 +5,6 @@
         <gallery slot="value" ref="gallery" v-if="hasSetInitialValue"
                  v-model="value" :editable="!field.readonly" :removable="field.removable" custom-properties :field="field" :multiple="field.multiple"
                  :has-error="hasError" :first-error="firstError"/>
-
-        <div v-if="field.existingMedia">
-          <button type="button" class="form-file-btn btn btn-default btn-primary mt-2" @click="existingMediaOpen = true">
-            {{  openExistingMediaLabel }}
-          </button>
-          <existing-media :open="existingMediaOpen" @close="existingMediaOpen = false" @select="addExistingItem"/>
-        </div>
         <help-text
           class="error-text mt-2 text-danger"
           v-if="showErrors && hasError"
@@ -31,33 +24,21 @@
   import { FormField, HandlesValidationErrors } from 'laravel-nova'
   import Gallery from '../Gallery';
   import FullWidthField from '../FullWidthField';
-  import ExistingMedia from '../ExistingMedia';
   import objectToFormData from 'object-to-formdata';
 
   export default {
     mixins: [FormField, HandlesValidationErrors],
     components: {
       Gallery,
-      FullWidthField,
-      ExistingMedia
+      FullWidthField
     },
     props: ['resourceName', 'resourceId', 'field'],
     data() {
       return {
-        hasSetInitialValue: false,
-        existingMediaOpen: false
+        hasSetInitialValue: false
       }
     },
     computed: {
-        openExistingMediaLabel () {
-        const type = this.field.type === 'media' ? 'Media' : 'File';
-
-        if (this.field.multiple || this.value.length === 0) {
-          return this.__(`Add Existing ${type}`);
-        }
-
-        return this.__(`Use Existing ${type}`);
-      }
     },
     methods: {
       /*
