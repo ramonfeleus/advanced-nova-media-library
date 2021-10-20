@@ -28,7 +28,7 @@
         <input :id="`__media__${field.attribute}`" :multiple="multiple" ref="file" class="form-file-input" type="file" @change="add"/>
         <label :for="`__media__${field.attribute}`" class="form-file-btn btn btn-default btn-primary" v-text="label"/>
       </div>
-      <div v-if="field.existingMedia">
+      <div v-if="editable && field.existingMedia">
         <button type="button" class="form-file-btn btn btn-default btn-primary ml-3" @click="existingMediaOpen = true">
           {{  openExistingMediaLabel }}
         </button>
