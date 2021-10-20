@@ -172,7 +172,7 @@
 <style lang="scss">
   $bg-color: #e8f5fb;
   $item-max-size: 150px;
-  $border-radius: 10px;
+  $border-radius: 0;
 
   .gallery {
     .gallery-item-image.gallery-item {
@@ -180,6 +180,7 @@
       height: $item-max-size;
 
       &:hover .gallery-item-info {
+        background-color: rgba(255,255,255,0.8);
         display: flex;
       }
 
@@ -190,11 +191,11 @@
       }
 
       .gallery-item-info {
+        background-color: transparent;
         display: none;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        background-color: transparentize($bg-color, .2);
         border-radius: $border-radius;
         position: absolute;
         z-index: 10;
@@ -202,6 +203,7 @@
         bottom: 0;
         left: 0;
         right: 0;
+        transition: background-color 250ms ease-in-out;
 
         .preview {
           color: var(--black);
@@ -220,10 +222,12 @@
       }
 
       .gallery-image {
-        object-fit: contain;
+        object-fit: cover;
         display: block;
-        max-height: 100%;
         border-radius: $border-radius;
+        max-width: none;
+        min-height: 100%;
+        min-width: 100%;
       }
 
       .statistics,

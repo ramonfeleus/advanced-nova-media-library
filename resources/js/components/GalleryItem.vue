@@ -28,16 +28,18 @@
       justify-content: center;
       position: relative;
       border-radius: $border-radius;
-      background-color: $bg-color;
+      background-color: transparent;
+
+      &.gallery-item-image {
+        background-color: $bg-color;
+        height: auto;
+      }
 
       .gallery-item-info {
         display: flex;
-        background-color: transparentize($bg-color, .2);
+        //background-color: transparentize($bg-color, .2);
         border-radius: $border-radius;
         z-index: 10;
-      }
-      &-image.gallery-item img.gallery-image {
-          border-radius: 0;
       }
     }
   }
