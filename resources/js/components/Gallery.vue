@@ -23,8 +23,8 @@
 
     <span v-else-if="!editable" class="mr-3">&mdash;</span>
 
-    <div class="gallery-buttons" v-if="editable || field.existingMedia">
-      <div v-if="editable" class="form-file">
+    <div class="gallery-buttons" v-if="editable">
+      <div class="form-file">
         <input :id="`__media__${field.attribute}`" :multiple="multiple" ref="file" class="form-file-input" type="file" @change="add"/>
         <label :for="`__media__${field.attribute}`" class="form-file-btn btn btn-default btn-primary" v-text="label"/>
       </div>

@@ -49600,28 +49600,26 @@ var render = function() {
         ? _c("span", { staticClass: "mr-3" }, [_vm._v("—")])
         : _vm._e(),
       _vm._v(" "),
-      _vm.editable || _vm.field.existingMedia
+      _vm.editable
         ? _c("div", { staticClass: "gallery-buttons" }, [
-            _vm.editable
-              ? _c("div", { staticClass: "form-file" }, [
-                  _c("input", {
-                    ref: "file",
-                    staticClass: "form-file-input",
-                    attrs: {
-                      id: "__media__" + _vm.field.attribute,
-                      multiple: _vm.multiple,
-                      type: "file"
-                    },
-                    on: { change: _vm.add }
-                  }),
-                  _vm._v(" "),
-                  _c("label", {
-                    staticClass: "form-file-btn btn btn-default btn-primary",
-                    attrs: { for: "__media__" + _vm.field.attribute },
-                    domProps: { textContent: _vm._s(_vm.label) }
-                  })
-                ])
-              : _vm._e(),
+            _c("div", { staticClass: "form-file" }, [
+              _c("input", {
+                ref: "file",
+                staticClass: "form-file-input",
+                attrs: {
+                  id: "__media__" + _vm.field.attribute,
+                  multiple: _vm.multiple,
+                  type: "file"
+                },
+                on: { change: _vm.add }
+              }),
+              _vm._v(" "),
+              _c("label", {
+                staticClass: "form-file-btn btn btn-default btn-primary",
+                attrs: { for: "__media__" + _vm.field.attribute },
+                domProps: { textContent: _vm._s(_vm.label) }
+              })
+            ]),
             _vm._v(" "),
             _vm.editable && _vm.field.existingMedia
               ? _c(
