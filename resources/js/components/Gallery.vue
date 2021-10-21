@@ -129,6 +129,19 @@
       },
     },
     methods: {
+      addExistingItem(item) {
+        // Copy to trigger watcher to recognize differnece between new and old values
+        // https://github.com/vuejs/vue/issues/2164
+        let copiedArray = this.value.slice(0)
+
+        if (!this.field.multiple) {
+          copiedArray.splice(0, 1);
+        }
+
+        copiedArray.push(item);
+        this.value = copiedArray
+      },
+
       remove(index) {
         this.images = this.images.filter((value, i) => i !== index);
       },

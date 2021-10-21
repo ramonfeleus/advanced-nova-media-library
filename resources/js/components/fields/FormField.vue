@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import { FormField, HandlesValidationErrors } from 'laravel-nova'
+  import { FormField, HandlesValidationErrors, mapProps } from 'laravel-nova'
   import Gallery from '../Gallery';
   import FullWidthField from '../FullWidthField';
   import objectToFormData from 'object-to-formdata';
@@ -32,7 +32,12 @@
       Gallery,
       FullWidthField
     },
-    props: ['resourceName', 'resourceId', 'field'],
+    props: {
+      field: { type: Object, required: true },
+      fieldName: { type: String },
+      showErrors: { type: Boolean, default: true },
+      ...mapProps(['resourceName', 'resourceId', 'field']),
+    },
     data() {
       return {
         hasSetInitialValue: false
@@ -94,19 +99,6 @@
       handleChange(value) {
         this.value = value
       },
-
-      addExistingItem(item) {
-        // Copy to trigger watcher to recognize differnece between new and old values
-        // https://github.com/vuejs/vue/issues/2164
-        let copiedArray = this.value.slice(0)
-
-        if (!this.field.multiple) {
-          copiedArray.splice(0, 1);
-        }
-
-        copiedArray.push(item);
-        this.value = copiedArray
-      }
     },
   };
 </script>
