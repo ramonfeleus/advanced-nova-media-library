@@ -33,6 +33,8 @@ class MediaController extends Controller
                     $query->orWhere('file_name', 'LIKE', '%' . $searchText . '%');
                 });
             }
+            //dirty fix for gallery
+            $query->where('mime_type', 'LIKE', 'image/%');
 
             $query->latest();
         }
