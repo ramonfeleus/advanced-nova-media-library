@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <modal v-if="image" @modal-close="onCancel" class="modal-cropper">
+    <modal v-if="image" class="modal-cropper">
       <card class="text-center clipping-container max-w-view bg-white rounded-lg shadow-lg overflow-hidden">
         <div class="p-4">
           <clipper-basic :cross-origin="configs['cross-origin']" class="clipper" ref="clipper" bg-color="rgba(0, 0, 0, 0)" :rotate.number="rotate" :src="imageUrl" v-bind="configs"/>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+//@modal-close="onCancel"
   import Converter from '../converter';
 
   export default {
