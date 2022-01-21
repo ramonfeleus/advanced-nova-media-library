@@ -233,7 +233,10 @@ class Media extends Field
                     );
                 }
 
-                $media = $media->toMediaCollection($collection);
+                //auto upload to s3 for images, files local
+                $diskname = strpos($file->getMimeType(), 'image') !== false ? 's3' : 'public';
+
+                $media = $media->toMediaCollection($collection, $diskname);
 
                 // fill custom properties for recently created media
                 $this->fillMediaCustomPropertiesFromRequest($request, $media, $index, $collection);
